@@ -7,8 +7,8 @@ NUM_BOMBS = 10
 NUM_CELLS = WIDTH * HEIGHT
 # sizings and amount of items in the game
 
-class Field(Fl_Window):
 
+class Field(Fl_Window):
     # constructor
     def __init__(self, x, y, w, h, title):
         super().__init__(x, y, w, h, title)
@@ -16,8 +16,8 @@ class Field(Fl_Window):
         # group for resizable gird of buttons
         grid_group = Fl_Group(0, 0, WIDTH * CELL_SIZE, HEIGHT * CELL_SIZE)
         grid_group.begin()
-        self.buttons = [] # store all buttons
-        self.button_grid = {} # dictionary for all x, y positions of each button
+        self.buttons = []  # store all buttons
+        self.button_grid = {}  # dictionary for all x, y positions of each button
         self.revealed_count = 0
         self.timer_value = 0
         self.timer_running = False
@@ -25,7 +25,9 @@ class Field(Fl_Window):
         # create button grid for all x, y positions
         for x in range(WIDTH):
             for y in range(HEIGHT):
-                minibutton = Fieldbutton(self, x, y, x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE)
+                minibutton = Fieldbutton(
+                    self, x, y, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE
+                )
                 self.buttons.append(minibutton)
                 self.button_grid[(x, y)] = minibutton
         # buttons now all in grid_group and resizable along with the window
@@ -33,7 +35,9 @@ class Field(Fl_Window):
         self.resizable(grid_group)
         # box with amount of flags placed
         self.flag_count = NUM_BOMBS
-        self.flag_label = Fl_Box(WIDTH * CELL_SIZE // 2 - 50, 1010, 100, 30, str(self.flag_count))
+        self.flag_label = Fl_Box(
+            WIDTH * CELL_SIZE // 2 - 50, 1010, 100, 30, str(self.flag_count)
+        )
         self.flag_label.labelcolor(FL_RED)
         self.flag_label.labelsize(20)
         self.flag_label.box(FL_FLAT_BOX)
@@ -50,7 +54,9 @@ class Field(Fl_Window):
     # restarts game at original sizing
     def restart_game(self):
         self.hide()
-        new_game = Field(0, 0, WIDTH * CELL_SIZE, HEIGHT * CELL_SIZE + 50, "Minesweeper")
+        new_game = Field(
+            0, 0, WIDTH * CELL_SIZE, HEIGHT * CELL_SIZE + 50, "Minesweeper"
+        )
         Fl.run()
 
     # timer for time of game
@@ -68,6 +74,7 @@ class Field(Fl_Window):
     # all my bombs places randomly
     def place_bombs(self):
         import random
+
         positions = [(i, j) for i in range(WIDTH) for j in range(HEIGHT)]
         random.shuffle(positions)
         bomb_positions = positions[:NUM_BOMBS]
@@ -100,6 +107,7 @@ class Field(Fl_Window):
         self.redraw()
         self.restart_game()
 
+
 # shows all my buttons if need be
 # no longer necessary
 class ShowAllButton(Fl_Button):
@@ -112,14 +120,14 @@ class ShowAllButton(Fl_Button):
         for button in self.app.buttons:
             button.reveal()
 
+
 # representative for each cell in grid
 class Fieldbutton(Fl_Button):
-
     # constructor
     def __init__(self, field, grid_x, grid_y, x, y, w, h):
         super().__init__(x, y, w, h)
-        self.grid_x = grid_x # x-coord in grid
-        self.grid_y = grid_y # y-coord in grid
+        self.grid_x = grid_x  # x-coord in grid
+        self.grid_y = grid_y  # y-coord in grid
         self.field = field
         self.is_bomb = False
         self.is_flagged = False
@@ -170,7 +178,7 @@ class Fieldbutton(Fl_Button):
             # cell has no interesting attributes
             elif self.numbombs == 0:
                 self.image(None)
-                #self.label("empty")
+                # self.label("empty")
             else:
                 # not a bomb then show neighbour bombs
                 self.image(None)
@@ -208,7 +216,6 @@ class Fieldbutton(Fl_Button):
         self.redraw()
         # self.update_images()
 
-
     # reveals cell(s)
     def reveal(self):
         if self.showing:
@@ -231,7 +238,7 @@ class Fieldbutton(Fl_Button):
                     for neighbour in self.getneighbours():
                         neighbour.reveal()
                 else:
-                    self.label(f'{self.numbombs()}')
+                    self.label(f"{self.numbombs()}")
             self.redraw()
 
     # counts bomb neighbours
@@ -260,8 +267,7 @@ class Fieldbutton(Fl_Button):
         print(f"Neighbours of {self.button_id}: {[n.button_id for n in neighbours]}")
         return neighbours
 
+
 # initializes and allows game to run hooray
 app = Field(0, 0, WIDTH * CELL_SIZE, HEIGHT * CELL_SIZE + 100, "minesweeper")
 Fl.run()
-
-
