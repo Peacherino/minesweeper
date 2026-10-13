@@ -2,6 +2,8 @@
 This is a Minesweeper game written in python with a GUI made using pyFLTK.
 
 ## Screenshot of Gameplay
+<img width="674" height="757" alt="minesweeper-game" src="https://github.com/user-attachments/assets/b9ec4978-c170-4a8d-8366-d96f2cea156a" />
+
 
 ## About Project:
 One of the greatest focuses of this project is about using recursion to reveal neighbouring
